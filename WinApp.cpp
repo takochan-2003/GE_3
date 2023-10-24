@@ -1,12 +1,28 @@
 #include "WinApp.h"
-#include <Windows.h>
+
+
+
+
+LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    // メッセージ応じてゲーム固有の処理を行う
+    switch (msg) {
+        // ウィンドウが破棄された
+    case WM_DESTROY:
+        // OSに対して、アプリの終了を伝える
+        PostQuitMessage(0);
+        return 0;
+    }
+
+    // 標準のメッセージ処理を行う
+    return DefWindowProc(hwnd, msg, wparam, lparam);
+    return LRESULT();
+}
 
 void WinApp::Initialize()
 {
 #pragma region WindowsAPI初期化処理
-    // ウィンドウサイズ
-    const int window_width = 1280;  // 横幅
-    const int window_height = 720;  // 縦幅
+
 
     // ウィンドウクラスの設定
     WNDCLASSEX w{};
@@ -24,7 +40,7 @@ void WinApp::Initialize()
     AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
     // ウィンドウオブジェクトの生成
-    HWND hwnd = CreateWindow(w.lpszClassName, // クラス名
+   hwnd = CreateWindow(w.lpszClassName, // クラス名
         L"DirectXGame",         // タイトルバーの文字
         WS_OVERLAPPEDWINDOW,        // 標準的なウィンドウスタイル
         CW_USEDEFAULT,              // 表示X座標（OSに任せる）
