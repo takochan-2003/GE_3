@@ -7,6 +7,8 @@ class WinApp {
 	 void Initialize();
 	 void Update();
 
+	 void Finalize();
+
 	 //Getter
 	 HWND GetHwnd() const { return hwnd; }
 	 HINSTANCE GetHInstance() const { return w.hInstance; }
