@@ -61,6 +61,8 @@ void WinApp::Initialize()
 
 bool WinApp::Update()
 {
+    MSG msg{};
+
     // メッセージがある？
     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
         TranslateMessage(&msg); // キー入力メッセージの処理
