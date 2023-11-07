@@ -211,7 +211,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
     input_ = new Input();
-    
+   
     input_->Initialize(winapp_);
 
     dxCommon = new DirectXCommon();
