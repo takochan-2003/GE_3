@@ -3,6 +3,7 @@
 #include <wrl.h>
 #include <dxgi1_6.h>
 #include <d3d12.h>
+#include <chrono>
 
 #include"WinApp.h"
 #include <vector>
@@ -35,6 +36,12 @@ private:
 	//フェンス
 	void FenceInitialize();
 
+
+	//FPS固定化処理
+	void InitializeEixFPS();
+
+	void UpdateFPS();
+
 private:
 	WinApp* winApp = nullptr;
 
@@ -56,4 +63,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap;
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
+
+	//記録用の変数
+	std::chrono::steady_clock::time_point reference_;
 };
