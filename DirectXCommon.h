@@ -43,7 +43,7 @@ private:
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	D3D12_RESOURCE_BARRIER barrierDesc{};
-	std::vector<ComPtr<ID3D12Resource>> backBuffers;
+	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> backBuffers;
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
 	Microsoft::WRL::ComPtr<ID3D12Device> device;
@@ -52,7 +52,6 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
-	Microsoft::WRL::ComPtr<ID3D12Device> device;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap;
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
