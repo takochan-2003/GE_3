@@ -16,6 +16,8 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
 	CreateVertex();
 	//色
 	CreateMaterial();
+	//行列
+	CreateWVP();
 }
 
 void Sprite::Draw()
@@ -30,6 +32,8 @@ void Sprite::Draw()
 
 	//色情報
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
+	//行列
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1,wvpResource->GetGPUVirtualAddress());
 
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
@@ -60,4 +64,14 @@ void Sprite::CreateMaterial()
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	
 	*materialData = color_;
+}
+
+void Sprite::CreateWVP()
+{
+	wvpResource = CreateBufferResource(dxCommon_->GetDevice(), sizeof(XMMATRIX));
+	
+	XMMATRIX* wvpData = nullptr;
+	wvpResource->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
+
+	*wvpData = XMMatrixIdentity();
 }

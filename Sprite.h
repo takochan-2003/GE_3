@@ -22,6 +22,8 @@ private:
 	void CreateVertex();
 	//マテリアル情報作成
 	void CreateMaterial();
+	//行列情報作成
+	void CreateWVP();
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -33,6 +35,9 @@ private:
 
 	//マテリアル情報
 	ComPtr<ID3D12Resource> materialResource;
+
+	//行列情報
+	ComPtr<ID3D12Resource>wvpResource;
 
 	//パラメータ
 	DirectX::XMFLOAT4 color_ = { 1.0f,0.0f,0.0f,1.0f };

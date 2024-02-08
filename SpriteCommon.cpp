@@ -30,10 +30,15 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	//RootParameter作成。複数設定できるので配列
-	D3D12_ROOT_PARAMETER rootParameters[1]{};
+	D3D12_ROOT_PARAMETER rootParameters[2]{};
+	//色
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[0].Descriptor.ShaderRegister = 0;
+	//頂点
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[1].Descriptor.ShaderRegister = 0;
 
 	descriptionRootSignature.pParameters = rootParameters;
 	descriptionRootSignature.NumParameters = _countof(rootParameters);
