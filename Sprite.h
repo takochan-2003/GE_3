@@ -51,6 +51,7 @@ private:
 
 	//パラメータ
 	DirectX::XMFLOAT4 color_ = { 1.0f,0.0f,0.0f,1.0f };
+
 	//Scale,Rotate,Translation。ここで三角形を変えれる
 	Transform transform = { {1,1,1},{0,0,0},{0,0,0} };
 

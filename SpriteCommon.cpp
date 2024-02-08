@@ -111,6 +111,21 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 
 }
 
+DirectX::ScratchImage SpriteCommon::LoadTexture(const std::wstring& filePath)
+{
+	///テクスチャファイルを読んでプログラムで扱えるようにする
+	DirectX::ScratchImage image{};
+	//std::wstring filePathW = ConvertString(filePath);
+	HRESULT result = DirectX::LoadFromWICFile(filePath.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
+	assert(SUCCEEDED(result));
+
+	DirectX::ScratchImage mipImages{};
+	result = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
+	assert(SUCCEEDED(result));
+
+	return image;
+}
+
 IDxcBlob* SpriteCommon::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler)
 {
 	//hlslファイルを読む
