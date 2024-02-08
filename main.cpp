@@ -48,8 +48,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
        
         //更新後処理
         dxCommon_->PostDraw();
-       
-
     }
 
     delete sp;

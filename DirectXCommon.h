@@ -21,6 +21,15 @@ public:
 	//Getter
 	ID3D12Device* GetDevice() const { return device.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
+
+	//スワップチェーン
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc() { return swapChainDesc; }
+	//RTVデスク
+	 // レンダーターゲットビューの設定
+	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc() { return rtvDesc; }
+	//SRVディスクリプタヒープ
+	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap.Get(); }
+
 private:
 	//デバイス
 	void InitializeDevaice();
@@ -64,4 +73,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap;
 	//SRV(画像など保存しておくもの)
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap;
+
+	// レンダーターゲットビューの設定
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 };
