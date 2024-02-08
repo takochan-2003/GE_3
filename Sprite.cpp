@@ -9,15 +9,15 @@
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
-void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
+void Sprite::Initialize(SpriteCommon* common)
 {
-	dxCommon_ = dxCommon;
 	common_ = common;
+	dxCommon_ = common_->GetDirectXCommon();
 
 	//‰æ‘œ‚Ì“Ç‚İ‚İ
 	DirectX::ScratchImage mipImages = common->LoadTexture(L"Resources/mario.jpg");
 	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
-	ID3D12Resource* textureResource = CreateTextureResource(dxCommon->GetDevice(),metaData);
+	ID3D12Resource* textureResource = CreateTextureResource(dxCommon_->GetDevice(),metaData);
 	common_->UploadTextureData(textureResource, mipImages);
 
 	//ShaderResourceViewì¬

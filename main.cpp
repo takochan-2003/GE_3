@@ -31,10 +31,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     //スプライトコモン
     SpriteCommon* common = new SpriteCommon();
     common->Initialize(dxCommon_);
-    
     //スプライト
     Sprite* sp = new Sprite();
-    sp->Initialize(dxCommon_,common);
+    sp->Initialize(common);
 
     // ゲームループ
     while (true) {
