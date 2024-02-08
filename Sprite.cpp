@@ -50,7 +50,13 @@ void Sprite::Initialize(SpriteCommon* common)
 void Sprite::Update()
 {
 	ImGui::Begin("Texture");
+
 	ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
+
+	ImGui::DragFloat3("UV-Pos", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
+	ImGui::SliderAngle("UV-Rot", &uvTransform.rotate.z);
+	ImGui::DragFloat3("UV-Scale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
+
 	ImGui::End();
 }
 
