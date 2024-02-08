@@ -1,6 +1,7 @@
 #pragma once
-#include<dxcapi.h>
 #include <string>
+#include<wrl.h>
+#include<dxcapi.h>
 
 
 //スプライト共通部

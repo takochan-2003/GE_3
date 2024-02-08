@@ -1,6 +1,4 @@
 #include "SpriteCommon.h"
-
-#include<wrl.h>
 #include<cassert>
 
 #pragma comment(lib,"dxcompiler.lib")
@@ -31,6 +29,7 @@ IDxcBlob* SpriteCommon::CompileShader(const std::wstring& filePath, const wchar_
 	HRESULT result = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
 	//読めなかったら止める
 	assert(SUCCEEDED(result));
+
 	//読み込んだファイルの内容を設定する
 	DxcBuffer shaderSourceBuffer;
 	shaderSourceBuffer.Ptr = shaderSource->GetBufferPointer();
@@ -61,16 +60,14 @@ IDxcBlob* SpriteCommon::CompileShader(const std::wstring& filePath, const wchar_
 	IDxcBlobUtf8* shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
 	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
-		Log(shaderError->GetStringPointer());
 		//警告・エラーダメゼッタイ
 		assert(false);
 	}
+
 	//コンパイル結果から実行用のバイナリ部分を取得
 	IDxcBlob* shaderBlob = nullptr;
 	result = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
 	assert(SUCCEEDED(result));
-	//成功したログを出す
-	Log(ConvertString(std::format(L"Compile Succeeded,path:{},profile:{}\n", filePath, profile)));
 	//もう使わないリソースを解放
 	shaderSource->Release();
 	shaderSource->Release();
