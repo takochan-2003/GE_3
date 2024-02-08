@@ -22,6 +22,22 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
 
 void Sprite::Draw()
 {
+
+	//Y軸中心に回転
+	transform.rotate.y += 0.03f;
+	//ワールド
+	XMMATRIX scaleMatrix = XMMatrixScalingFromVector(XMLoadFloat3(&transform.scale));
+	XMMATRIX rotateMatrix = XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&transform.rotate));
+	XMMATRIX translationMatrix = XMMatrixTranslationFromVector(XMLoadFloat3(&transform.translate));
+	//回転行列とスケール行列の掛け算
+	XMMATRIX rotationAndScaleMatrix = XMMatrixMultiply(rotateMatrix, scaleMatrix);
+	//最終的な行列変換
+	XMMATRIX worldMatrix = XMMatrixMultiply(rotationAndScaleMatrix, translationMatrix);
+
+	//行列の代入
+	*wvpData = worldMatrix;
+
+
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(common_->GetRootSignature());
 	dxCommon_->GetCommandList()->SetPipelineState(common_->GetPipelineState());
 
@@ -70,7 +86,6 @@ void Sprite::CreateWVP()
 {
 	wvpResource = CreateBufferResource(dxCommon_->GetDevice(), sizeof(XMMATRIX));
 	
-	XMMATRIX* wvpData = nullptr;
 	wvpResource->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
 
 	*wvpData = XMMatrixIdentity();

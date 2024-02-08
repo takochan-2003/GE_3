@@ -11,6 +11,13 @@
 class Sprite {
 private:
 	template <class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
+private:
+	struct Transform {
+		DirectX::XMFLOAT3 scale;
+		DirectX::XMFLOAT3 rotate;
+		DirectX::XMFLOAT3 translate;
+	};
+
 public:
 	//初期化処理
 	void Initialize(DirectXCommon* dxCommon, SpriteCommon* common);
@@ -38,7 +45,10 @@ private:
 
 	//行列情報
 	ComPtr<ID3D12Resource>wvpResource;
+	DirectX::XMMATRIX* wvpData = nullptr;
 
 	//パラメータ
 	DirectX::XMFLOAT4 color_ = { 1.0f,0.0f,0.0f,1.0f };
+	//Scale,Rotate,Translation。ここで三角形を変えれる
+	Transform transform = { {1,1,1},{0,0,0},{0,0,0} };
 };
