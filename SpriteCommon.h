@@ -2,13 +2,14 @@
 #include <string>
 #include<wrl.h>
 #include<dxcapi.h>
+#include"DirectXCommon.h"
 
 
 //スプライト共通部
 class SpriteCommon {
 public:
 	//初期化処理
-	void Initialize();
+	void Initialize(DirectXCommon* dxCommon);
 
 private:
 	static IDxcBlob* CompileShader(
@@ -21,4 +22,7 @@ private:
 		IDxcCompiler3* dxcCompiler,
 		IDxcIncludeHandler* includeHandler
 	);
+
+private:
+	DirectXCommon* dxCommon_ = nullptr;
 };

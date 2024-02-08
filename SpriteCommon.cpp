@@ -1,25 +1,46 @@
 #include "SpriteCommon.h"
 #include<cassert>
+#include <d3d12.h>
 
 #pragma comment(lib,"dxcompiler.lib")
 
 using namespace Microsoft::WRL;
 
-void SpriteCommon::Initialize()
+void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 {
 	HRESULT result{};
+	dxCommon_ = dxCommon;
 
 	//DXC初期化
 	ComPtr<IDxcUtils> dxcUtils;
 	ComPtr<IDxcCompiler3> dxcCompiler;
+	ComPtr<IDxcIncludeHandler> includeHandler;
+
 	result = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
 	assert(SUCCEEDED(result));
 	result = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler));
 	assert(SUCCEEDED(result));
 
-	ComPtr<IDxcIncludeHandler> includeHandler;
 	result = dxcUtils->CreateDefaultIncludeHandler(&includeHandler);
 	assert(SUCCEEDED(result));
+
+	//RootSignature作成
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
+	descriptionRootSignature.Flags =
+		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	//シリアライズしてバイナリにする
+	ComPtr<ID3DBlob> signatureBlob;
+	ComPtr<ID3DBlob> errorBlob;
+	result = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(result)) {
+		assert(SUCCEEDED(result));
+	}
+	//バイナリを元に作成
+	ComPtr<ID3D12RootSignature> rootSignature;
+	result = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
+	assert(SUCCEEDED(result));
+
 }
 
 IDxcBlob* SpriteCommon::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler)
