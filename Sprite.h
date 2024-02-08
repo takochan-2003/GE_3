@@ -18,9 +18,16 @@ private:
 		DirectX::XMFLOAT3 translate;
 	};
 
+	//頂点情報
 	struct VertexData {
 		DirectX::XMFLOAT4 position;
 		DirectX::XMFLOAT2 texcoord;
+	};
+
+	//マテリアル
+	struct MaterialData {
+		DirectX::XMFLOAT4 color;
+		DirectX::XMMATRIX uvTransform;
 	};
 
 public:
