@@ -15,15 +15,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     winapp_ = new WinApp();
     winapp_->Initialize();
 
-
     input_ = new Input();
     input_->Initialize(winapp_);
-   
-
+  
     dxCommon = new DirectXCommon();
     dxCommon->Initialize(winapp_);
 
-    
     // ゲームループ
     while (true) {
        
@@ -34,17 +31,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         //入力
         input_->Update();
 
-
-
         //更新前処理
         dxCommon->PreDraw();
-
        
         //更新後処理
         dxCommon->PostDraw();
        
-
-        // DirectX毎フレーム処理　ここまで
 
     }
     
@@ -54,7 +46,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     winapp_->Finalize();
     delete winapp_;
-
 
     return 0;
 }
