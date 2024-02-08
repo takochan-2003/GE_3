@@ -34,8 +34,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     SpriteCommon* common = new SpriteCommon();
     common->Initialize(dxCommon_);
     //スプライト
-    Sprite* sp = new Sprite();
-    sp->Initialize(common);
+    std::vector<Sprite*> sp;
+    for (int i = 0; i < 5; i++) {
+        Sprite* temp = new Sprite();
+        temp->Initialize(common);
+        temp->SetPosition({ (float)i * 1,0 });
+        sp.push_back(temp);
+    }
 
     // ゲームループ
     while (true) {
@@ -53,40 +58,45 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
         //移動
-        DirectX::XMFLOAT2 pos = sp->GetPosition();
-        pos.x += 0.05f;
-        sp->SetPosition(pos);
-        //回転
-        float rot = sp->GetRotation();
-        rot += 0.002f;
-        sp->SetRotation(rot);
-        //色
-        DirectX::XMFLOAT4 color = sp->GetColor();
-        color.x -= 0.01f;
-        if (color.x < 0) {
-            color.x = 1.0f;
-        }
-        sp->SetColor(color);
+        //DirectX::XMFLOAT2 pos = sp->GetPosition();
+        //pos.x += 0.05f;
+        //sp->SetPosition(pos);
+        ////回転
+        //float rot = sp->GetRotation();
+        //rot += 0.002f;
+        //sp->SetRotation(rot);
+        ////色
+        //DirectX::XMFLOAT4 color = sp->GetColor();
+        //color.x -= 0.01f;
+        //if (color.x < 0) {
+        //    color.x = 1.0f;
+        //}
+        //sp->SetColor(color);
         ////サイズ
         //DirectX::XMFLOAT2 size = sp->GetSize();
         //size.y += 0.01f;
         //sp->SetSize(size);
 
-        sp->Update();
+        for (int i = 0; i < 5; i++) {
+            sp[i]->Update();
+        }
 
         //更新前処理
         ImGuiManager::CreateCommand();
         dxCommon_->PreDraw();
         common->SpritePreDraw();
 
-        sp->Draw();
+        for (int i = 0; i < 5; i++) {
+            sp[i]->Draw();
+        }
        
         //更新後処理
         ImGuiManager::CommandsExcute(dxCommon_->GetCommandList());
         dxCommon_->PostDraw();
     }
-
-    delete sp;
+    for (int i = 0; i < 5; i++) {
+        delete sp[i];
+    }
     delete common;
     delete imgui;
     delete input_;
