@@ -26,6 +26,9 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 void WinApp::Initialize()
 {
+    //一番最初に呼び出す
+    CoInitializeEx(0, COINIT_MULTITHREADED);
+
 #pragma region WindowsAPI初期化処理
 
 
@@ -83,6 +86,9 @@ bool WinApp::Update()
 
 void WinApp::Finalize()
 {
+    //一番最後に呼び出す
+    CoUninitialize();
+
     // ウィンドウクラスを登録解除
     UnregisterClass(w.lpszClassName, w.hInstance);
 }
