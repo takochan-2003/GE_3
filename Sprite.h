@@ -62,6 +62,7 @@ private:
 
 	//マテリアル情報
 	ComPtr<ID3D12Resource> materialResource;
+	MaterialData* materialData = nullptr;
 
 	//行列情報
 	ComPtr<ID3D12Resource>wvpResource;
@@ -72,8 +73,10 @@ private:
 
 	//パラメータ
 	DirectX::XMFLOAT4 color_ = { 1.0f,1.0f,1.0f,1.0f };
+	//UV座標
+	Transform uvTransform = { {1,1,1},{0,0,0},{0,0,0} };
 
-	//Scale,Rotate,Translation。ここで三角形を変えれる
+	//自機 Scale,Rotate,Translationj。ここで三角形を変えれる
 	Transform transform = { {1,1,1},{0,0,0},{0,0,0} };
 
 	//カメラ

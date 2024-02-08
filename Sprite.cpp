@@ -92,6 +92,17 @@ void Sprite::Draw()
 	//行列の代入
 	*wvpData = worldViewProjectionMatrix;
 
+
+	//UVTransform
+	XMMATRIX uvScaleMatrix = XMMatrixScalingFromVector(XMLoadFloat3(&uvTransform.scale));
+	XMMATRIX uvRotateMatrix = XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&uvTransform.rotate));
+	XMMATRIX uvTranslationMatrix = XMMatrixTranslationFromVector(XMLoadFloat3(&uvTransform.translate));
+	//回転行列とスケール行列の掛け算
+	XMMATRIX uvRotationAndScaleMatrix = XMMatrixMultiply(uvRotateMatrix, uvScaleMatrix);
+	//最終的な行列変換
+	XMMATRIX uvWorldMatrix = XMMatrixMultiply(uvRotationAndScaleMatrix, uvTranslationMatrix);
+	materialData->uvTransform = uvWorldMatrix;
+
 	//頂点情報
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 	//インデックス情報
@@ -160,7 +171,6 @@ void Sprite::CreateMaterial()
 {
 	materialResource = CreateBufferResource(dxCommon_->GetDevice(), sizeof(MaterialData));
 
-	MaterialData* materialData = nullptr;
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	
 	materialData->color = color_;
