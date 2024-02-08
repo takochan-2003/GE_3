@@ -14,6 +14,12 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
 	dxCommon_ = dxCommon;
 	common_ = common;
 
+	//‰æ‘œ‚Ì“Ç‚İ‚İ
+	DirectX::ScratchImage mipImages = common->LoadTexture(L"Resources/mario.jpg");
+	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
+	ID3D12Resource* textureResource = CreateTextureResource(dxCommon->GetDevice(),metaData);
+	common_->UploadTextureData(textureResource, mipImages);
+
 	//’¸“_î•ñ
 	CreateVertex();
 	//F
