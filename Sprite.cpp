@@ -34,6 +34,7 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
 	textureSrvHandleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	textureSrvHandleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
+	//読み込んだ情報をsrvDesc(枠)とHandle(位置)を使って保存する
 	dxCommon_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
 
 	//頂点情報
@@ -55,7 +56,7 @@ void Sprite::Draw()
 {
 
 	//Y軸中心に回転
-	transform.rotate.y += 0.03f;
+	transform.rotate.y += 0.01f;
 	//ワールド
 	XMMATRIX scaleMatrix = XMMatrixScalingFromVector(XMLoadFloat3(&transform.scale));
 	XMMATRIX rotateMatrix = XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&transform.rotate));
