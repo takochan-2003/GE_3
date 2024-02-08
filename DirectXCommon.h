@@ -35,6 +35,9 @@ private:
 	//フェンス
 	void FenceInitialize();
 
+	//ディスクリプタヒープ作成
+	ID3D12DescriptorHeap* CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescripots,bool shaderVisible);
+
 private:
 	WinApp* winApp = nullptr;
 
