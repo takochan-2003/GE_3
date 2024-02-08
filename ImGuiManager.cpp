@@ -20,3 +20,43 @@ void ImGuiManager::Initialize(HWND hwnd, DirectXCommon* dxCommon)
 		dxCommon->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart()
 	);
 }
+
+void ImGuiManager::NewFlame()
+{
+	//更新開始時
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
+
+void ImGuiManager::CreateCommand()
+{
+	//更新処理終了時
+	ImGui::Render();
+}
+
+void ImGuiManager::CommandsExcute(ID3D12GraphicsCommandList* commandList)
+{
+	//ImGui描画処理
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
+}
+
+ImGuiManager* ImGuiManager::Create()
+{
+	ImGuiManager* instance = new ImGuiManager();
+	return instance;
+}
+
+ImGuiManager::~ImGuiManager()
+{
+	//デストラクタ(Delete)
+	ImGui_ImplDX12_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+}
+
+void ImGuiManager::ShowDemo()
+{
+	//ImGui確認用
+	ImGui::ShowDemoWindow();
+}
