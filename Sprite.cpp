@@ -34,8 +34,29 @@ void Sprite::Draw()
 	//最終的な行列変換
 	XMMATRIX worldMatrix = XMMatrixMultiply(rotationAndScaleMatrix, translationMatrix);
 
+	//カメラ
+	XMMATRIX cameraScaleMatrix = XMMatrixScalingFromVector(XMLoadFloat3(&cameraTransform.scale));
+	XMMATRIX cameraRotateMatrix = XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&cameraTransform.rotate));
+	XMMATRIX cameraTranslationMatrix = XMMatrixTranslationFromVector(XMLoadFloat3(&cameraTransform.translate));
+	//回転とスケールの掛け算
+	XMMATRIX cameraRotateAndScaleMatrix = XMMatrixMultiply(cameraRotateMatrix, cameraScaleMatrix);
+	//最終的な行列
+	XMMATRIX cameraMatrix = XMMatrixMultiply(cameraRotateAndScaleMatrix, cameraTranslationMatrix);
+
+	//View
+	XMMATRIX view = XMMatrixInverse(nullptr, cameraMatrix);
+	XMMATRIX proj = XMMatrixPerspectiveFovLH(
+		XMConvertToRadians(45.f),
+		(float)WinApp::window_width / (float)WinApp::window_height,
+		0.1f,
+		100.f
+	);
+
+	//WVP
+	XMMATRIX worldViewProjectionMatrix = worldMatrix * (view * proj);
+
 	//行列の代入
-	*wvpData = worldMatrix;
+	*wvpData = worldViewProjectionMatrix;
 
 
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(common_->GetRootSignature());
