@@ -24,6 +24,8 @@ public:
 
 	//画像読み込み
 	DirectX::ScratchImage LoadTexture(const std::wstring& filePath);
+	//読み込んだ画像をGPU(シェーダーに送る)
+	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
 private:
 	static IDxcBlob* CompileShader(
