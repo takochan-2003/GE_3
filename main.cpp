@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     //ポインタ置き場
     Input* input_ = nullptr;
     WinApp* winapp_ = nullptr;
-    DirectXCommon* dxCommon = nullptr;
+    DirectXCommon* dxCommon_ = nullptr;
 
 #pragma region WinApp初期化処理
     winapp_ = new WinApp();
@@ -20,16 +20,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     input_ = new Input();
     input_->Initialize(winapp_);
   
-    dxCommon = new DirectXCommon();
-    dxCommon->Initialize(winapp_);
+    dxCommon_ = new DirectXCommon();
+    dxCommon_->Initialize(winapp_);
 
     //スプライトコモン
-    SpriteCommon* spriteCommon = new SpriteCommon();
-    spriteCommon->Initialize();
+    SpriteCommon* common = new SpriteCommon();
+    common->Initialize(dxCommon_);
     
     //スプライト
-    Sprite* sprite = new Sprite();
-    sprite->Initialize();
+    Sprite* sp = new Sprite();
+    sp->Initialize(dxCommon_,common);
 
     // ゲームループ
     while (true) {
@@ -42,18 +42,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         input_->Update();
 
         //更新前処理
-        dxCommon->PreDraw();
+        dxCommon_->PreDraw();
+
+        sp->Draw();
        
         //更新後処理
-        dxCommon->PostDraw();
+        dxCommon_->PostDraw();
        
 
     }
 
-    delete sprite;
-    delete spriteCommon;
+    delete sp;
+    delete common;
     delete input_;
-    delete dxCommon;
+    delete dxCommon_;
     winapp_->Finalize();
     delete winapp_;
 

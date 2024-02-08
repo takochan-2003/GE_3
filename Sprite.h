@@ -9,7 +9,7 @@
 class Sprite {
 private:
 	template <class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-private:
+public:
 	//‰Šú‰»ˆ—
 	void Initialize(DirectXCommon* dxCommon, SpriteCommon* common);
 
