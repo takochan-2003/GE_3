@@ -107,6 +107,7 @@ void Sprite::Draw()
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 
 	dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);
+
 }
 
 void Sprite::CreateVertex()
