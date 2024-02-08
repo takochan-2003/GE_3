@@ -3,6 +3,8 @@
 #include <d3d12.h>
 #include<wrl.h>
 
+#include<DirectXMath.h>
+
 #include "SpriteCommon.h"
 
 //スプライト
@@ -31,4 +33,7 @@ private:
 
 	//マテリアル情報
 	ComPtr<ID3D12Resource> materialResource;
+
+	//パラメータ
+	DirectX::XMFLOAT4 color_ = { 1.0f,0.0f,0.0f,1.0f };
 };
