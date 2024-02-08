@@ -110,19 +110,24 @@ void Sprite::Draw()
 void Sprite::CreateVertex()
 {
 	//VertexResource
-	vertexResource = CreateBufferResource(dxCommon_->GetDevice(), sizeof(XMFLOAT4) * 3);
+	vertexResource = CreateBufferResource(dxCommon_->GetDevice(), sizeof(VertexData) * 3);
 
 	vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = sizeof(DirectX::XMFLOAT4) * 3;
-	vertexBufferView.StrideInBytes = sizeof(DirectX::XMFLOAT4);
+	vertexBufferView.SizeInBytes = sizeof(VertexData) * 3;
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
 
 	//’¸“_î•ñ
-	XMFLOAT4* vertexData = nullptr;
+	VertexData* vertexData = nullptr;
 	vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 
-	vertexData[0] = { -0.5f,-0.5f,0.0f,1.0f };
-	vertexData[1] = { +0.0f,+0.5f,0.0f,1.0f };
-	vertexData[2] = { +0.5f,-0.5f,0.0f,1.0f };
+	vertexData[0].position = { -0.5f,-0.5f,0.0f,1.0f };
+	vertexData[0].texcoord = { 0.0f,1.0f };
+
+	vertexData[1].position = { +0.0f,+0.5f,0.0f,1.0f };
+	vertexData[1].texcoord = { 0.5f,0.0f };
+
+	vertexData[2].position = { +0.5f,-0.5f,0.0f,1.0f };
+	vertexData[2].texcoord = { 1.0f,1.0f };
 }
 
 void Sprite::CreateMaterial()
