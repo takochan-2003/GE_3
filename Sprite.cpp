@@ -90,14 +90,9 @@ void Sprite::Draw()
 	//s—ñ‚Ì‘ã“ü
 	*wvpData = worldViewProjectionMatrix;
 
-
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(common_->GetRootSignature());
-	dxCommon_->GetCommandList()->SetPipelineState(common_->GetPipelineState());
-
 	//’¸“_î•ñ
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
-	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//Fî•ñ
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
