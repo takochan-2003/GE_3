@@ -43,6 +43,7 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
 
 void Sprite::Draw()
 {
+
 	//頂点リソースにデータを書き込む
 	XMFLOAT4* vertexData = nullptr;
 	//書き込むためのアドレスを取得
