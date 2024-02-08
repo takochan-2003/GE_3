@@ -7,6 +7,8 @@
 
 #include "ImGuiManager.h"
 
+#include<vector>
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -48,6 +50,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         //////多分下からが更新処理
         //入力
         input_->Update();
+
+
+        //移動
+        DirectX::XMFLOAT2 pos = sp->GetPosition();
+        pos.x += 0.05f;
+        sp->SetPosition(pos);
+        //回転
+        float rot = sp->GetRotation();
+        rot += 0.002f;
+        sp->SetRotation(rot);
+        //色
+        DirectX::XMFLOAT4 color = sp->GetColor();
+        color.x -= 0.01f;
+        if (color.x < 0) {
+            color.x = 1.0f;
+        }
+        sp->SetColor(color);
+        ////サイズ
+        //DirectX::XMFLOAT2 size = sp->GetSize();
+        //size.y += 0.01f;
+        //sp->SetSize(size);
+
         sp->Update();
 
         //更新前処理
