@@ -4,6 +4,8 @@
 
 #include"BufferResource.h"
 
+#include"External/imgui/imgui.h"
+
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
@@ -18,6 +20,13 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
 	CreateMaterial();
 	//çsóÒ
 	CreateWVP();
+}
+
+void Sprite::Update()
+{
+	ImGui::Begin("Texture");
+	ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
+	ImGui::End();
 }
 
 void Sprite::Draw()

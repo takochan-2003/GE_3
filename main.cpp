@@ -45,9 +45,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         ImGuiManager::NewFlame();
         imgui->ShowDemo();
 
+
+        //////多分下からが更新処理
         //入力
         input_->Update();
-
+        sp->Update();
 
         //更新前処理
         ImGuiManager::CreateCommand();
