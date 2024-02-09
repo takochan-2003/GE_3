@@ -133,6 +133,7 @@ void Sprite::Draw()
 
 void Sprite::SetTexture(std::wstring textureFilePath)
 {
+
 	textureIndex_ = TextureManager::GetInstance()->GetTextureIndexFilePath(textureFilePath);
 }
 
