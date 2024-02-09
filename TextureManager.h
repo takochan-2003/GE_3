@@ -18,7 +18,13 @@ public:
 	static TextureManager* GetInstance();
 	void Finalize();
 
-	void Initialize();
+	void Initialize(DirectXCommon* dxComoon);
+
+	//画像読み込み
+	void LoadTexture(const std::wstring& filePath);
+private:
+	//読み込んだ画像をGPU(シェーダーに送る)
+	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
 private:
 	static TextureManager* instance;
@@ -29,6 +35,8 @@ private:
 	TextureManager& operator=(TextureManager) = delete;
 
 private:
+	DirectXCommon* dxCommon_ = nullptr;
+
 	std::vector<TextureData> textureDatas;
 
 

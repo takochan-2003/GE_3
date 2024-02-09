@@ -14,29 +14,6 @@ void Sprite::Initialize(SpriteCommon* common)
 	common_ = common;
 	dxCommon_ = common_->GetDirectXCommon();
 
-	//画像の読み込み
-	DirectX::ScratchImage mipImages = common->LoadTexture(L"Resources/mario.jpg");
-	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
-	ID3D12Resource* textureResource = CreateTextureResource(dxCommon_->GetDevice(),metaData);
-	common_->UploadTextureData(textureResource, mipImages);
-
-	//ShaderResourceView作成
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = metaData.format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
-
-	//保存するメモリの場所を指定
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = dxCommon_->GetSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-	textureSrvHandleGPU = dxCommon_->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
-
-	textureSrvHandleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	textureSrvHandleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-	//読み込んだ情報をsrvDesc(枠)とHandle(位置)を使って保存する
-	dxCommon_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
-
 	//頂点情報
 	CreateVertex();
 	//インデックス情報

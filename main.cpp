@@ -37,7 +37,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     common->Initialize(dxCommon_);
 
     //テクスチャマネージャー
-    TextureManager::GetInstance()->Initialize();
+    TextureManager::GetInstance()->Initialize(dxCommon_);
 
     //スプライト
     std::vector<Sprite*> sp;
