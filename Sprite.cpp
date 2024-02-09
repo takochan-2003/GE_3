@@ -38,10 +38,10 @@ void Sprite::Update()
 	transform.scale = { size.x,size.y,1.0f };
 
 	//アンカーポイント更新
-	float left = 0.0f;
-	float right = 1.0f;
-	float top = 0.0f;
-	float bottom = 1.0f;
+	float left = 0.0f-anchorPoint.x;
+	float right = 1.0f - anchorPoint.x;
+	float top = 0.0f - anchorPoint.y;
+	float bottom = 1.0f - anchorPoint.y;
 
 	//頂点情報
 	vertexData[0].position = { left,bottom,0.0f,1.0f };

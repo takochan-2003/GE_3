@@ -99,7 +99,7 @@ private:
 	DirectX::XMFLOAT2 size = { 512,512 };
 
 	//アンカーポイント
-	DirectX::XMFLOAT2 anchorPoint = { 0,0 };
+	DirectX::XMFLOAT2 anchorPoint = { -1,-1 };
 
 	//画像の保存されている場所
 	uint32_t textureIndex_ = 0;
