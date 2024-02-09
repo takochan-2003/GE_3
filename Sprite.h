@@ -32,7 +32,7 @@ private:
 
 public:
 	//‰Šú‰»ˆ—
-	void Initialize(SpriteCommon* common);
+	void Initialize(SpriteCommon* common,std::wstring textureFilePath);
 
 	void Update();
 
@@ -48,6 +48,8 @@ public:
 	void SetRotation(float rot) { rotation = rot; }
 	void SetColor(DirectX::XMFLOAT4 color) { color_ = color; }
 	void SetSize(DirectX::XMFLOAT2 size) { this->size = size; }
+
+	void SetTexture(std::wstring textureFilePath);
 
 private:
 	//’¸“_î•ñì¬
@@ -90,6 +92,9 @@ private:
 	DirectX::XMFLOAT2 position = { 0,0};
 	float rotation = 0;
 	DirectX::XMFLOAT2 size = { 512,512 };
+
+	//‰æ‘œ‚Ì•Û‘¶‚³‚ê‚Ä‚¢‚éêŠ
+	uint32_t textureIndex_ = 0;
 
 	//ƒJƒƒ‰
 	Transform cameraTransform = { {1,1,1},{0,0,0},{0,0,-5} };

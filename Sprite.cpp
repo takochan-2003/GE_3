@@ -6,13 +6,18 @@
 
 #include"External/imgui/imgui.h"
 
+#include"TextureManager.h"
+
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
-void Sprite::Initialize(SpriteCommon* common)
+void Sprite::Initialize(SpriteCommon* common, std::wstring textureFilePath)
 {
 	common_ = common;
 	dxCommon_ = common_->GetDirectXCommon();
+
+	//単位行列を書き込んでおく
+	textureIndex_ = TextureManager::GetInstance()->GetTextureIndexFilePath(textureFilePath);
 
 	//頂点情報
 	CreateVertex();
@@ -117,13 +122,18 @@ void Sprite::Draw()
 	//行列
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1,wvpResource->GetGPUVirtualAddress());
 	//画像
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetSrvHandleGPU(textureIndex_));
 
 	//頂点情報
 	//dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);
 	//インデックス情報がある場合の描画
 	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
+}
+
+void Sprite::SetTexture(std::wstring textureFilePath)
+{
+	textureIndex_ = TextureManager::GetInstance()->GetTextureIndexFilePath(textureFilePath);
 }
 
 void Sprite::CreateVertex()
