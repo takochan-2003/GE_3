@@ -38,7 +38,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     for (int i = 0; i < 5; i++) {
         Sprite* temp = new Sprite();
         temp->Initialize(common);
-        temp->SetPosition({ (float)i * 1,0 });
+        temp->SetPosition({ (float)i * 120,0 });
         sp.push_back(temp);
     }
 

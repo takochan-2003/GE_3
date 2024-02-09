@@ -51,20 +51,20 @@ void Sprite::Update()
 {
 	//更新処理
 	transform.translate = {position.x,position.y,0};
-	/*transform.rotate = { 0,0,rotation };
+	transform.rotate = { 0,0,rotation };
 	materialData->color = color_;
-	transform.translate = { size.x,size.y,1.0f };*/
+	transform.translate = { size.x,size.y,1.0f };
 
-	vertexData[0].position = { -0.5f,-0.5f,0.0f,1.0f };
+	vertexData[0].position = { 0.0f,1.0f,0.0f,1.0f };
 	vertexData[0].texcoord = { 0.0f,1.0f };
 
-	vertexData[1].position = { -0.5f,+0.5f,0.0f,1.0f };
+	vertexData[1].position = { 0.0f,0.0f,0.0f,1.0f };
 	vertexData[1].texcoord = { 0.0f,0.0f };
 
-	vertexData[2].position = { +0.5f,-0.5f,0.0f,1.0f };
+	vertexData[2].position = { 1.0f,1.0f,0.0f,1.0f };
 	vertexData[2].texcoord = { 1.0f,1.0f };
 
-	vertexData[3].position = { +0.5f,+0.5f,0.0f,1.0f };
+	vertexData[3].position = { 1.0f,0.0f,0.0f,1.0f };
 	vertexData[3].texcoord = { 1.0f,0.0f };
 
 	ImGui::Begin("Texture");
@@ -82,7 +82,7 @@ void Sprite::Draw()
 {
 
 	//Y軸中心に回転
-	transform.rotate.y += 0.01f;
+	//transform.rotate.y += 0.01f;
 	//ワールド
 	XMMATRIX scaleMatrix = XMMatrixScalingFromVector(XMLoadFloat3(&transform.scale));
 	XMMATRIX rotateMatrix = XMMatrixRotationRollPitchYawFromVector(XMLoadFloat3(&transform.rotate));
@@ -103,12 +103,15 @@ void Sprite::Draw()
 
 	//View
 	XMMATRIX view = XMMatrixInverse(nullptr, cameraMatrix);
+	//Proj
 	XMMATRIX proj = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(45.f),
 		(float)WinApp::window_width / (float)WinApp::window_height,
 		0.1f,
 		100.f
 	);
+	/*XMMATRIX proj = XMMatrixOrthographicOffCenterLH(0, WinApp::window_width, WinApp::window_height, 0, 0.1f, 100.f);*/
+
 
 	//WVP
 	XMMATRIX worldViewProjectionMatrix = worldMatrix * (view * proj);
@@ -158,16 +161,16 @@ void Sprite::CreateVertex()
 	//頂点情報
 	vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 
-	vertexData[0].position = { -0.5f,-0.5f,0.0f,1.0f };
+	vertexData[0].position = { 0.0f,1.0f,0.0f,1.0f };
 	vertexData[0].texcoord = { 0.0f,1.0f };
 
-	vertexData[1].position = { -0.5f,+0.5f,0.0f,1.0f };
+	vertexData[1].position = { 0.0f,0.0f,0.0f,1.0f };
 	vertexData[1].texcoord = { 0.0f,0.0f };
 
-	vertexData[2].position = { +0.5f,-0.5f,0.0f,1.0f };
+	vertexData[2].position = { 1.0f,1.0f,0.0f,1.0f };
 	vertexData[2].texcoord = { 1.0f,1.0f };
 
-	vertexData[3].position = { +0.5f,+0.5f,0.0f,1.0f };
+	vertexData[3].position = { 1.0f,0.0f,0.0f,1.0f };
 	vertexData[3].texcoord = { 1.0f,0.0f };
 
 }
