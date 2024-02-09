@@ -90,9 +90,9 @@ private:
 
 	//自機 Scale,Rotate,Translationj。ここで三角形を変えれる
 	Transform transform = { {1,1,1},{0,0,0},{0,0,0} };
-	DirectX::XMFLOAT2 position = { 0,0};
+	DirectX::XMFLOAT2 position = {0.0f,0.0f};
 	float rotation = 0;
-	DirectX::XMFLOAT2 size = { 1,1 };
+	DirectX::XMFLOAT2 size = { 1.0f,1.0f };
 
 	//カメラ
 	Transform cameraTransform = { {1,1,1},{0,0,0},{0,0,-5} };
