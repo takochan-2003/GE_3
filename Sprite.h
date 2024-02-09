@@ -43,11 +43,16 @@ public:
 	float GetRotation() { return rotation; }
 	DirectX::XMFLOAT4 GetColor() { return color_; }
 	DirectX::XMFLOAT2 GetSize() { return size; }
+	//アンカーポイント
+	DirectX::XMFLOAT2 GetAnchorPoint() { return anchorPoint; }
 
 	void SetPosition(DirectX::XMFLOAT2 pos) { position = pos; }
 	void SetRotation(float rot) { rotation = rot; }
 	void SetColor(DirectX::XMFLOAT4 color) { color_ = color; }
 	void SetSize(DirectX::XMFLOAT2 size) { this->size = size; }
+
+	//アンカーポイント
+	void SetAnchorPoint(DirectX::XMFLOAT2 anchor) { anchorPoint = anchor; }
 
 	void SetTexture(std::wstring textureFilePath);
 
@@ -92,6 +97,9 @@ private:
 	DirectX::XMFLOAT2 position = { 0,0};
 	float rotation = 0;
 	DirectX::XMFLOAT2 size = { 512,512 };
+
+	//アンカーポイント
+	DirectX::XMFLOAT2 anchorPoint = { 0,0 };
 
 	//画像の保存されている場所
 	uint32_t textureIndex_ = 0;

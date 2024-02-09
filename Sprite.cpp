@@ -37,17 +37,25 @@ void Sprite::Update()
 	materialData->color = color_;
 	transform.scale = { size.x,size.y,1.0f };
 
-	vertexData[0].position = { 0.0f,1.0f,0.0f,1.0f };
+	//アンカーポイント更新
+	float left = 0.0f;
+	float right = 1.0f;
+	float top = 0.0f;
+	float bottom = 1.0f;
+
+	//頂点情報
+	vertexData[0].position = { left,bottom,0.0f,1.0f };
+	vertexData[1].position = { left,top,0.0f,1.0f };
+	vertexData[2].position = { right,bottom,0.0f,1.0f };
+	vertexData[3].position = { right,top,0.0f,1.0f };
+
+	//
 	vertexData[0].texcoord = { 0.0f,1.0f };
-
-	vertexData[1].position = { 0.0f,0.0f,0.0f,1.0f };
 	vertexData[1].texcoord = { 0.0f,0.0f };
-
-	vertexData[2].position = { 1.0f,1.0f,0.0f,1.0f };
 	vertexData[2].texcoord = { 1.0f,1.0f };
-
-	vertexData[3].position = { 1.0f,0.0f,0.0f,1.0f };
 	vertexData[3].texcoord = { 1.0f,0.0f };
+
+
 
 	ImGui::Begin("Texture");
 
