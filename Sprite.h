@@ -45,6 +45,13 @@ public:
 	DirectX::XMFLOAT2 GetSize() { return size; }
 	//アンカーポイント
 	DirectX::XMFLOAT2 GetAnchorPoint() { return anchorPoint; }
+	//左右反転
+	bool GetFlipX() { return isFlipX; }
+	//上下反転
+	bool GetFlipY() { return isFlipY; }
+	//切り抜き関連
+	DirectX::XMFLOAT2 GetTextureLeftTop() { return textureLeftTop; }
+	DirectX::XMFLOAT2 GetTextureSize() { return textureSize; }
 
 	void SetPosition(DirectX::XMFLOAT2 pos) { position = pos; }
 	void SetRotation(float rot) { rotation = rot; }
@@ -53,6 +60,14 @@ public:
 
 	//アンカーポイント
 	void SetAnchorPoint(DirectX::XMFLOAT2 anchor) { anchorPoint = anchor; }
+	//左右反転
+	void SetFlipX(bool isFlag) { isFlipX = isFlag; }
+	//上下反転
+	void SetFlipY(bool isFlag) { isFlipY = isFlag; }
+	//切り抜き関連
+	void SetTextureLeftTop(DirectX::XMFLOAT2 value) { textureLeftTop = value; }
+	void SetTextureSize(DirectX::XMFLOAT2 size) { textureSize = size; }
+
 
 	void SetTexture(std::wstring textureFilePath);
 
@@ -65,6 +80,9 @@ private:
 	void CreateMaterial();
 	//行列情報作成
 	void CreateWVP();
+
+	//本来の画像のサイズで描画する
+	void AdujustTextureSize();
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -99,7 +117,17 @@ private:
 	DirectX::XMFLOAT2 size = { 512,512 };
 
 	//アンカーポイント
-	DirectX::XMFLOAT2 anchorPoint = { -1,-1 };
+	DirectX::XMFLOAT2 anchorPoint = { 0,0 };
+	//左右反転
+	bool isFlipX = false;
+	//上下反転
+	bool isFlipY = false;
+
+	//切り抜き
+	//切り抜きたい画像内の座標
+	DirectX::XMFLOAT2 textureLeftTop = { 0,0 };
+	//切り抜きたい画像内のサイズ
+	DirectX::XMFLOAT2 textureSize = { 200,200 };
 
 	//画像の保存されている場所
 	uint32_t textureIndex_ = 0;

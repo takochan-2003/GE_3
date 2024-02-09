@@ -27,6 +27,9 @@ void Sprite::Initialize(SpriteCommon* common, std::wstring textureFilePath)
 	CreateMaterial();
 	//行列
 	CreateWVP();
+
+	//画像のサイズ
+	AdujustTextureSize();
 }
 
 void Sprite::Update()
@@ -43,17 +46,35 @@ void Sprite::Update()
 	float top = 0.0f - anchorPoint.y;
 	float bottom = 1.0f - anchorPoint.y;
 
+	//フリップ
+	if (isFlipX == true) {
+		//左右反転
+		left = -left;
+		right = -right;
+	}
+	if (isFlipY == true) {
+		//上下反転
+		top = -top;
+		bottom = -bottom;
+	}
+
 	//頂点情報
 	vertexData[0].position = { left,bottom,0.0f,1.0f };
 	vertexData[1].position = { left,top,0.0f,1.0f };
 	vertexData[2].position = { right,bottom,0.0f,1.0f };
 	vertexData[3].position = { right,top,0.0f,1.0f };
 
-	//
-	vertexData[0].texcoord = { 0.0f,1.0f };
-	vertexData[1].texcoord = { 0.0f,0.0f };
-	vertexData[2].texcoord = { 1.0f,1.0f };
-	vertexData[3].texcoord = { 1.0f,0.0f };
+	const DirectX::TexMetadata& metaData = TextureManager::GetInstance()->GetMetaData(textureIndex_);
+	float tex_left = textureLeftTop.x / metaData.width;
+	float tex_right = (textureLeftTop.x + textureSize.x) / metaData.width;
+	float tex_top = textureLeftTop.y / metaData.height;
+	float tex_bottom = (textureLeftTop.y + textureSize.y) / metaData.height;
+
+	//UV座標
+	vertexData[0].texcoord = { tex_left,tex_bottom };
+	vertexData[1].texcoord = { tex_left,tex_top };
+	vertexData[2].texcoord = { tex_right,tex_bottom };
+	vertexData[3].texcoord = { tex_right,tex_top };
 
 
 
@@ -206,4 +227,14 @@ void Sprite::CreateWVP()
 	wvpResource->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
 
 	*wvpData = XMMatrixIdentity();
+}
+
+void Sprite::AdujustTextureSize()
+{
+	const DirectX::TexMetadata& metaData = TextureManager::GetInstance()->GetMetaData(textureIndex_);
+
+	textureSize.x = static_cast<float>(metaData.width);
+	textureSize.y = static_cast<float>(metaData.height);
+
+	size = textureSize;
 }
