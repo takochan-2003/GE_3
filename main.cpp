@@ -38,6 +38,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     //テクスチャマネージャー
     TextureManager::GetInstance()->Initialize(dxCommon_);
+    TextureManager::GetInstance()->LoadTexture(L"Resources/mario.jpg");
 
     //スプライト
     std::vector<Sprite*> sp;

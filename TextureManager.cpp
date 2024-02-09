@@ -3,6 +3,7 @@
 #include"BufferResource.h"
 
 TextureManager* TextureManager::instance= nullptr;
+uint32_t TextureManager::kSRVIndexTop = 1;
 
 TextureManager* TextureManager::GetInstance()
 {
@@ -26,6 +27,19 @@ void TextureManager::Initialize(DirectXCommon* dxComoon)
 
 void TextureManager::LoadTexture(const std::wstring& filePath)
 {
+	//読み込み済みか確認する
+	auto it = std::find_if(
+		textureDatas.begin(),
+		textureDatas.end(),
+		[&](TextureData& textureData) {return textureData.filePath == filePath; }
+	);
+	if (it != textureDatas.end()) {
+		return;
+	}
+
+	//最大数を超えてないかの確認
+	assert(textureDatas.size() + kSRVIndexTop < DirectXCommon::kMaxSRVCount);
+
 	///テクスチャファイルを読んでプログラムで扱えるようにする
 	DirectX::ScratchImage image{};
 	//std::wstring filePathW = ConvertString(filePath);
@@ -47,7 +61,7 @@ void TextureManager::LoadTexture(const std::wstring& filePath)
 	UploadTextureData(data.resource.Get(), mipImages);
 
 	//画像が保存されているメモリ
-	uint32_t srvIndex = static_cast<uint32_t>(textureDatas.size() - 1);
+	uint32_t srvIndex = static_cast<uint32_t>(textureDatas.size() - 1) + kSRVIndexTop;
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = dxCommon_->GetSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = dxCommon_->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * srvIndex;
@@ -65,6 +79,33 @@ void TextureManager::LoadTexture(const std::wstring& filePath)
 
 	//読み込んだ情報をsrvDesc(枠)とHandle(位置)を使って保存する
 	dxCommon_->GetDevice()->CreateShaderResourceView(data.resource.Get(), &srvDesc, data.srvHandleCPU);
+}
+
+uint32_t TextureManager::GetTextureIndexFilePath(const std::wstring& filePath)
+{
+	auto it = std::find_if(
+		textureDatas.begin(),
+		textureDatas.end(),
+		[&](TextureData& textureData) {return textureData.filePath == filePath; }
+	);
+	if (it != textureDatas.end()) {
+		uint32_t textureIndex = static_cast<uint32_t>(std::distance(textureDatas.begin(), it));
+		return textureIndex;
+	}
+
+	//対象の画像がなかった場合、停止する
+	assert(0);
+	return 0;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetSrvHandleGPU(uint32_t textureIndex)
+{
+	assert(textureIndex < DirectXCommon::kMaxSRVCount);
+
+	//要素番号を受け取る
+	TextureData& data = textureDatas[textureIndex];
+
+	return data.srvHandleGPU;
 }
 
 void TextureManager::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages)
